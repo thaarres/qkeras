@@ -254,12 +254,13 @@ class quantized_bits(object):  # pylint: disable=invalid-name
   """
 
   def __init__(self, bits=8, integer=0, symmetric=0, keep_negative=1,
-               use_stochastic_rounding=False):
+               use_stochastic_rounding=False,name='qbits'):
     self.bits = bits
     self.integer = integer
     self.symmetric = symmetric
     self.keep_negative = (keep_negative > 0)
     self.use_stochastic_rounding = use_stochastic_rounding
+    self.__name__ = name
 
   def __call__(self, x):
     """Computes fixedpoint quantization of x."""
@@ -805,7 +806,8 @@ class QDense(Dense):
                **kwargs):
 
     self.kernel_range = kernel_range
-    self.bias_max = bias_range
+    self.bias_max  = bias_range
+    self.bias_range = bias_range
 
     kernel_initializer = get_initializer(kernel_initializer, kernel_range)
     if kernel_quantizer:
